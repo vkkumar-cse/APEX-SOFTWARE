@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Package, Clock, FileText, ArrowRight, ShieldCheck, Building, Handshake, Wrench } from "lucide-react";
+import { Package, Clock, FileText, ArrowRight, ShieldCheck, Building, Handshake, Wrench, Truck } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 
 interface ModuleCard {
@@ -37,6 +37,14 @@ const ALL_MODULES: ModuleCard[] = [
     description: "Manage customer records and account profiles.",
     icon: <Building className="h-8 w-8" />,
     path: "/customers",
+    status: "available",
+  },
+  {
+    id: "suppliers",
+    title: "Suppliers",
+    description: "Manage supplier/vendor records and account profiles.",
+    icon: <Truck className="h-8 w-8" />,
+    path: "/suppliers",
     status: "available",
   },
   {

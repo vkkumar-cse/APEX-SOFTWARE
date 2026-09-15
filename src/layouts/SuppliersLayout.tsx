@@ -2,22 +2,16 @@ import { Link, NavLink } from "react-router-dom";
 import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { LayoutDashboard, Package, Truck, ScanLine, LogOut, FolderTree, ClipboardList, History, ChevronLeft, FileText } from "lucide-react";
+import { Truck, LogOut, ChevronLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 import apexLogo from "@/assets/apex-logo.jpeg";
 
-export function InventoryLayout({ children }: { children: React.ReactNode }) {
+export function SuppliersLayout({ children }: { children: React.ReactNode }) {
   const { user, role, signOut, displayName, isAdmin } = useAuth();
 
   const nav = [
-    { to: "/inventory/dashboard", label: "Dashboard", icon: LayoutDashboard, show: true },
-    { to: "/inventory/categories", label: "Categories", icon: FolderTree, show: true },
-    { to: "/inventory/products", label: "Products", icon: Package, show: true },
-    { to: "/suppliers", label: "Suppliers", icon: Truck, show: isAdmin },
-    { to: "/inventory/transactions", label: "Transactions", icon: History, show: true },
-    { to: "/inventory/requests", label: "Requests", icon: ClipboardList, show: true },
-    { to: "/inventory/scan", label: "Scan", icon: ScanLine, show: true },
-  ].filter(n => n.show);
+    { to: "/suppliers", label: "Suppliers", icon: Truck, show: true },
+  ].filter((n) => n.show);
 
   return (
     <div className="min-h-screen flex flex-col overflow-x-hidden">
@@ -25,7 +19,7 @@ export function InventoryLayout({ children }: { children: React.ReactNode }) {
         <div className="container flex h-16 max-w-full items-center gap-3 px-3 sm:px-6 lg:px-8">
           <Link to="/" className="flex min-w-0 items-center gap-2 font-bold group">
             <img src={apexLogo} alt="Apex Industrial Metrology LLP" className="h-9 w-9 rounded-lg object-cover bg-white" />
-            <span className="truncate text-base tracking-tight sm:text-lg">Apex<span className="text-primary"> Inventory</span></span>
+            <span className="truncate text-base tracking-tight sm:text-lg">Apex<span className="text-primary"> Suppliers</span></span>
             <ChevronLeft className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition ml-2 opacity-0 group-hover:opacity-100" />
           </Link>
           <nav className="hidden md:flex items-center gap-1 ml-6">
@@ -53,7 +47,7 @@ export function InventoryLayout({ children }: { children: React.ReactNode }) {
                 {(role ?? 'worker')?.toUpperCase()}
               </Badge>
             </div>
-            <Button variant="ghost" size="icon" onClick={() => signOut().then(() => window.location.href = "/auth")}>
+            <Button variant="ghost" size="icon" onClick={() => signOut().then(() => window.location.href = "/auth") }>
               <LogOut className="h-4 w-4" />
             </Button>
           </div>

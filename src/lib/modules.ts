@@ -2,6 +2,7 @@ export const MODULES = [
   { key: "inventory", label: "Inventory" },
   { key: "attendance", label: "Attendance" },
   { key: "customers", label: "Customers" },
+  { key: "suppliers", label: "Suppliers" },
   { key: "crm", label: "CRM" },
   { key: "delivery_challan", label: "DC Entry" },
   { key: "user_management", label: "User Management" },

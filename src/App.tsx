@@ -12,6 +12,7 @@ import { AttendanceLayout } from "@/layouts/AttendanceLayout";
 import { DCLayout } from "@/layouts/DCLayout";
 import DCRoutes from "@/routes/DCRoutes";
 import { CustomersLayout } from "@/layouts/CustomersLayout";
+import { SuppliersLayout } from "@/layouts/SuppliersLayout";
 import { CRMLayout } from "@/layouts/CRMLayout";
 import { AdminLayout } from "@/layouts/AdminLayout";
 import Auth from "./pages/auth/Auth";
@@ -20,6 +21,7 @@ import InventoryRoutes from "./routes/InventoryRoutes";
 import AttendanceRoutes from "./routes/AttendanceRoutes";
 import AdminRoutes from "./routes/AdminRoutes";
 import CustomerRoutes from "./routes/CustomerRoutes";
+import SupplierRoutes from "./routes/SupplierRoutes";
 import CRMRoutes from "./routes/CRMRoutes";
 import NotFound from "./pages/NotFound";
 import { Navigate } from "react-router-dom";
@@ -97,6 +99,18 @@ const App = () => (
                   <CustomersLayout>
                     <CustomerRoutes />
                   </CustomersLayout>
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Suppliers Module Routes - With SuppliersLayout */}
+            <Route
+              path="/suppliers/*"
+              element={
+                <ProtectedRoute requiredModule="suppliers">
+                  <SuppliersLayout>
+                    <SupplierRoutes />
+                  </SuppliersLayout>
                 </ProtectedRoute>
               }
             />
