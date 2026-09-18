@@ -936,7 +936,6 @@ export default function DeliveryChallan() {
                 <tr>
                   <th className="border p-2 font-bold text-black">DC No</th>
                   <th className="border p-2 font-bold text-black">Date</th>
-                  <th className="border p-2 font-bold text-black">Type</th>
                   <th className="border p-2 font-bold text-black">Customer/Supplier</th>
                   <th className="border p-2 font-bold text-black">Items</th>
                   <th className="border p-2 font-bold text-black">Status</th>
@@ -950,9 +949,6 @@ export default function DeliveryChallan() {
                   <tr key={dc.id} className="cursor-pointer hover:bg-secondary/20" onClick={() => setSelectedDc(dc)}>
                     <td className="border p-2 text-center">{dc.challan_number ?? dc.id.slice(0, 8).toUpperCase()}</td>
                     <td className="border p-2 text-center">{new Date(dc.challan_date).toLocaleDateString()}</td>
-                    <td className="border p-2 text-center">
-                      <Badge variant="outline" className="capitalize">{dc.type}</Badge>
-                    </td>
                     <td className="border p-2">{dc.type === "supplier" ? dc.supplier_name_snapshot : dc.customer_name_snapshot}</td>
                     <td className="border p-2 text-center">{dcItems[dc.id]?.length ?? 0}</td>
                     <td className="border p-2 text-center">{dc.status}</td>
@@ -1296,7 +1292,6 @@ function PrintPreview({
             width: 100%;
             padding: 4mm 8mm;
             border: 1px solid #000;
-            border-top: 0;
             font-size: 9pt;
             flex-shrink: 0;
             display: flex;
@@ -1304,7 +1299,7 @@ function PrintPreview({
             background: white;
             color: black;
             box-sizing: border-box;
-            margin: 0;
+            margin: auto 0 0;
             page-break-inside: avoid;
             break-inside: avoid;
           }
@@ -1521,10 +1516,11 @@ function PrintContent({
   startIndex: number;
 }) {
   const isSupplier = dc.type === "supplier";
-  // Every physical page is a complete, identical DC form: always exactly
-  // ITEMS_PER_PAGE rows (real items padded with blanks), never a variable-height
-  // table — this keeps every page's size fixed regardless of item count.
-  const rows = [...items, ...Array<DeliveryChallanItem | null>(Math.max(0, ITEMS_PER_PAGE - items.length)).fill(null)];
+  // Only actual items get a row — no filler rows. The page (a fixed-height
+  // flex column, see .dc-print-page) pins the signature to the bottom via
+  // margin-top:auto on .print-signature-area, so whatever height the table
+  // doesn't use simply stays blank above the signature, keeping the
+  // signature's position fixed regardless of how many rows are on the page.
 
   return (
     <div className="dc-print-page">
@@ -1542,18 +1538,7 @@ function PrintContent({
           </tr>
         </thead>
         <tbody>
-          {rows.map((item, idx) => {
-            if (!item) {
-              return (
-                <tr key={`blank-${idx}`}>
-                  <td className="text-center">&nbsp;</td>
-                  <td className="align-top">&nbsp;</td>
-                  <td className="align-top">&nbsp;</td>
-                  <td className="text-center align-top">&nbsp;</td>
-                  <td className="align-top">&nbsp;</td>
-                </tr>
-              );
-            }
+          {items.map((item, idx) => {
             const prod = products.find((p) => p.id === item.product_id);
             const name = item.product_id ? prod?.name ?? item.item_name ?? "" : item.item_name ?? "";
             const code = item.item_code || prod?.part_no || prod?.code || "";
